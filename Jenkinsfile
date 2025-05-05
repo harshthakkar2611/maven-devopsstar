@@ -1,36 +1,26 @@
-pipeline 
-{
-    agent any          
-    tools	       
-    {
-        jdk "java17"
+pipeline {
+    agent any
+    
+    tools {
+        jdk "java11"
         maven "maven3"
     }
-    stages 	       
-    {
-        stage('code fetch') 
-        {
-            steps 
-            {
-               echo "code fetch from github repo"
-               git branch: 'main', url: 'https://github.com/harshthakkar2611/maven-devopsstar.git'
+
+    stages {
+        stage('Build Code') {
+            steps {
+                echo "Building the code..."
+                sh 'mvn clean package'
             }
         }
-        stage('build code') 
-        {
-            steps 
-            {
-                echo "build process"
-                sh 'mvn clean package'  
-            }
-        }
-        stage('archieve artifact') 
-        {
-            steps 
-            {
-                echo "artifact archieved"
+
+        stage('Archive Artifact') {
+            steps {
+                echo "Archiving WAR file..."
                 archiveArtifacts artifacts: '**/*.war', followSymlinks: false
             }
+        }
+
         }
     }
 }
