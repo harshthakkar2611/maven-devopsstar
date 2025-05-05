@@ -13,14 +13,13 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
+    
 
         stage('Archive Artifact') {
             steps {
                 echo "Archiving WAR file..."
                 archiveArtifacts artifacts: '**/*.war', followSymlinks: false
             }
-        }
-
         }
     }
 }
